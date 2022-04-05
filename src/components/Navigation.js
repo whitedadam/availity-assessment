@@ -15,6 +15,11 @@ const Navigation = () => {
             Provider Form
           </NavLink>
         </NavItem>
+        <NavItem>
+          <NavLink tag={Link} to="/questions">
+            Questions 1-3
+          </NavLink>
+        </NavItem>
       </Nav>
     </Navbar>
   );

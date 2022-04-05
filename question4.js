@@ -40,3 +40,18 @@ console.log(lispChecker("()(words)(text)()((()))(()())(())")); // valid
 console.log(lispChecker("")); // invalid
 console.log(lispChecker("((")); // invald
 console.log(lispChecker("))")); // invalid
+console.log(lispChecker("USER(1): (* 2 (cos 0) (+ 4 6))")); // valid
+console.log(
+  lispChecker(
+    "(defun negate (X)" +
+      "'Negate the value of X.'  ; This is a documentation string." +
+      "(- X))      "
+  )
+); // valid
+console.log(
+  lispChecker(
+    "())defun negate (X)" +
+      "'Negate the value of X.'  ; This is a documentation string." +
+      "(- X))      "
+  )
+); // invalid
