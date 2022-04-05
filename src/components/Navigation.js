@@ -25,6 +25,11 @@ const Navigation = () => {
             Provider Form
           </NavLink>
         </NavItem>
+        <NavItem>
+          <NavLink tag={Link} to="/parse-csv">
+            ParseCSV
+          </NavLink>
+        </NavItem>
       </Nav>
     </Navbar>
   );

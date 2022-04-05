@@ -7,6 +7,7 @@ import Navigation from "./components/Navigation";
 import Footer from "./components/Footer";
 import Questions from "./components/Questions"
 import LispChecker from "./components/LispChecker";
+import ParseCSV from "./components/ParseCSV";
 
 const App = () => {
   const [ author ] = useState("Adam Whited");
@@ -21,6 +22,7 @@ const App = () => {
               <Route path="/" element={<ProviderForm />}></Route>
               <Route path="/questions" element={<Questions />}></Route>
               <Route path="/lisp-checker" element={<LispChecker />}></Route>
+              <Route path="/parse-csv" element={<ParseCSV />}></Route>
             </Routes>
           </Col>
         </Row>

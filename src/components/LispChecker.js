@@ -70,7 +70,7 @@ const LispChecker = () => {
 
   return (
     <Card style={{ borderColor: "#333" }}>
-      <CardTitle tag={"h3"}>LISP Checker</CardTitle>
+      <CardTitle style={{ margin: "5px" }}tag={"h3"}>LISP Checker</CardTitle>
       <Col>
         <Form onSubmit={handleSubmit}>
           <FormGroup style={{ margin: "10px" }}>
