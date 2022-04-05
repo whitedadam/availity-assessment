@@ -5,7 +5,7 @@ const Questions = () => {
     <Row>
       <Col>
         <Card align={"center"} style={{ borderColor: "#333" }}>
-          <CardTitle tag={"h5"}>Proudest Professional Achievement</CardTitle>
+          <CardTitle tag={"h5"} style={{ margin: "5px"}}>Proudest Professional Achievement</CardTitle>
           <CardBody>
             My proudest professional Achievement is what I've been able to
             accomplish in my Senior Project class for the past two semesters
@@ -41,8 +41,8 @@ const Questions = () => {
         </Card>
       </Col>
       <Col>
-        <Card style={{ borderColor: "#333" }}>
-          <CardTitle tag={"h5"}>
+        <Card align={"center"} style={{ borderColor: "#333" }}>
+          <CardTitle tag={"h5"} style={{ margin: "5px"}}>
             Something I Have Read and Would Recommend
           </CardTitle>
           <CardBody>
@@ -75,8 +75,8 @@ const Questions = () => {
         </Card>
       </Col>
       <Col>
-        <Card style={{ borderColor: "#333" }}>
-          <CardTitle tag={"h5"}>
+        <Card align={"center"} style={{ borderColor: "#333" }}>
+          <CardTitle tag={"h5"} style={{ margin: "5px"}}>
             Explaining to Grandma What Availity Does
           </CardTitle>
           <CardBody>
