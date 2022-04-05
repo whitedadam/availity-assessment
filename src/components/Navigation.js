@@ -11,13 +11,18 @@ const Navigation = () => {
       </Col>
       <Nav>
         <NavItem>
-          <NavLink tag={Link} to="/">
-            Provider Form
+          <NavLink tag={Link} to="/questions">
+            Questions 1-3
           </NavLink>
         </NavItem>
         <NavItem>
-          <NavLink tag={Link} to="/questions">
-            Questions 1-3
+          <NavLink tag={Link} to="/lisp-checker">
+            LISP Checker
+          </NavLink>
+        </NavItem>
+        <NavItem>
+          <NavLink tag={Link} to="/">
+            Provider Form
           </NavLink>
         </NavItem>
       </Nav>

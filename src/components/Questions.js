@@ -53,10 +53,9 @@ const Questions = () => {
             allows me time to typically focus on what is in front of me.
             <br />
             <br />
-            <strong>
-              However, to answer the question as best as I can: I am a huge
-              history fan. 
-            </strong>
+            However, to answer the question as best as I can:
+            <br />
+            <strong>I am a huge history fan.</strong>
             <br />
             <br />
             Recently, I have been listening to Dan Carlin's podcasts on the fall
@@ -64,6 +63,14 @@ const Questions = () => {
             great as I've previously listened to Mike Duncan's{" "}
             <em>History of Rome</em>, so I have something to bounce this more
             stylized presentation off of.
+            <br />
+            <br />I would seriously recommend this or any other straightforward
+            telling of history as you are exposed to great humans that have been
+            put into harsh/unique situations. From their stories, you are able
+            to see example of how to overcome, think creatively for solutions,
+            or navigate the murky waters of politics. I use the lessons learned
+            from great thinkers like Marcus Aurelius (<em>Meditations</em>) in
+            my daily life and try to practice Stoicism as best as I can.
           </CardBody>
         </Card>
       </Col>
@@ -72,7 +79,28 @@ const Questions = () => {
           <CardTitle tag={"h5"}>
             Explaining to Grandma What Availity Does
           </CardTitle>
-          <CardBody>Lorem ipsum dollar</CardBody>
+          <CardBody>
+            If I were to explain to my grandma what Availity does, it may look
+            something like:
+            <br />
+            <br />
+            "Nana, you know how when you go to the hospital to get your
+            check-ups? Well, whenever you need to get a procedure like an X-Ray,
+            your doctor can't just walk you right down to the machine even if
+            it's open. He has to make sure you're eligible for the procedure and
+            make sure your insurance has given the thumbs up for it!
+            <br />
+            <br />
+            Since you've got your insurance and everyone else has their own
+            insurance, it can get really complicated to keep track of who has
+            what and who's approved for what. So, Availity has a website that
+            makes it easier for doctors to keep track of the complicated stuff!
+            That way your doctor can treat you faster and better so you don't
+            have to wait so long. That's why you don't see anyone messing around
+            with a fax machine at the hospital anymore.
+            <br />
+            <br />I love you too, Nana."
+          </CardBody>
         </Card>
       </Col>
     </Row>
