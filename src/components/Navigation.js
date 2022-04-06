@@ -11,7 +11,7 @@ const Navigation = () => {
       </Col>
       <Nav>
         <NavItem>
-          <NavLink tag={Link} to="/questions">
+          <NavLink tag={Link} to="/">
             Questions 1-3
           </NavLink>
         </NavItem>
@@ -21,7 +21,7 @@ const Navigation = () => {
           </NavLink>
         </NavItem>
         <NavItem>
-          <NavLink tag={Link} to="/">
+          <NavLink tag={Link} to="/provider-form">
             Provider Form
           </NavLink>
         </NavItem>

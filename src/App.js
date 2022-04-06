@@ -19,8 +19,8 @@ const App = () => {
         <Row>
           <Col>
             <Routes>
-              <Route path="/" element={<ProviderForm />}></Route>
-              <Route path="/questions" element={<Questions />}></Route>
+              <Route path="/provider-form" element={<ProviderForm />}></Route>
+              <Route path="/" element={<Questions />}></Route>
               <Route path="/lisp-checker" element={<LispChecker />}></Route>
               <Route path="/parse-csv" element={<ParseCSV />}></Route>
             </Routes>
