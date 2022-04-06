@@ -127,7 +127,8 @@ const ParseCSV = () => {
           <Input type="file" id="upload" accept=".csv"></Input>
           <FormText>
             Please upload a .csv file. <br />
-            File headers: UserId, FirstAndLastName, Version, InsuranceCompany
+            File headers: UserId, FirstAndLastName, Version, InsuranceCompany<br />
+            You may use the "input1.csv" file within this directory as a test input.
             <br />
           </FormText>
           <Button

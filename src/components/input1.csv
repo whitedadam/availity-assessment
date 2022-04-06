@@ -1,0 +1,8 @@
+UserId,FirstAndLastName,Version,InsuranceCompany
+1,Bob Smith,1,Florida Blue
+2,Jane Doe,1,Florida Blue
+3,Bob Smith,2,United Healthcare
+4,Perry Jones,3,Delta
+5,Adam James,1,United Healthcare
+5,Adam James,3,Florida Blue
+5,Adam James,2,United Healthcare
