@@ -20,9 +20,13 @@ const ParseCSV = () => {
   // Just making an assumption that there's only 3 insurance companies
   // Florida Blue, United Healthcare and Delta
   // I know that this is unrealistic but was running out of time.
-  const [floridaBlue, setFloridaBlue] = useState([]);
-  const [united, setUnited] = useState([]);
-  const [delta, setDelta] = useState([]);
+  const [floridaBlue] = useState([]);
+  const [united] = useState([]);
+  const [delta] = useState([]);
+
+  // Testing generality for code reusability
+  const [outObj] =  useState({})
+  const [finalArr, setFinalArr] = useState([]);
 
   const handleUpload = (e) => {
     // Using Papaparse package to parse the uploaded file to a state array
@@ -48,14 +52,18 @@ const ParseCSV = () => {
       let insuranceArr = [];
       let oldInsurance = new Set();
 
+      // Grabbing each unique insurance company from the input doc
       csvData.forEach((datum) => {
         if (!oldInsurance.has(datum.InsuranceCompany)) {
+          outObj[datum.InsuranceCompany] = [];
           insuranceArr.push(datum.InsuranceCompany);
           oldInsurance.add(datum.InsuranceCompany);
         }
       });
 
-      insuranceArr.forEach((company) => {
+      console.log(JSON.stringify(outObj));
+
+      for (let company in outObj) { //change back to insuranceArr.forEach((company)) to fix
         csvData.forEach((datum1, index1) => {
           csvData.forEach((datum2, index2) => {
             if (
@@ -69,8 +77,8 @@ const ParseCSV = () => {
               if (!oldInfo.has(datum1.UserId)) {
                 // Checking that UserId hasn't appeared before
                 if (datum1.Version >= datum2.Version)
-                  arr.push(datum1); // if datum1 is higher version add it
-                else if (datum1.Version <= datum2.Version) arr.push(datum2); //if datum2 is higher version add it
+                  outObj[company].push(datum1); // if datum1 is higher version add it
+                else if (datum1.Version <= datum2.Version) outObj[company].push(datum2); //if datum2 is higher version add it
                 oldInfo.add(datum1.UserId); // track UserId within set
               }
             }
@@ -80,42 +88,38 @@ const ParseCSV = () => {
             datum1.InsuranceCompany === company
           ) {
             // if UserId hasn't been seen before and is not duplicate add it to array
-            arr.push(datum1);
+            outObj[company].push(datum1);
             oldInfo.add(datum1.UserId);
           }
         }); // end datum1
         oldInfo.clear(); //cleaing tracking set
-        // Sorting array by first and last name ascending
-        arr.sort((a, b) => {
-          const nameA = a.FirstAndLastName.toUpperCase();
-          const nameB = b.FirstAndLastName.toUpperCase();
-          if (nameA < nameB) {
-            return -1;
-          }
-          if (nameA > nameB) {
-            return 1;
-          }
-
-          return 0;
-        });
-
-        // Setting state arrays and writing to json file
-        if (company === "Florida Blue") {
-          setFloridaBlue(JSON.parse(JSON.stringify(arr)));
-        }
-        if (company === "United Healthcare") {
-          setUnited(JSON.parse(JSON.stringify(arr)));
-        }
-        if (company === "Delta") {
-          setDelta(JSON.parse(JSON.stringify(arr)));
-        }
-
-        // Clearing array for next iteration
-        arr = [];
-      }); //end insuranceArr
+        
+        
+      }; //end outObj
     } catch (err) {
       console.log(err);
     }
+
+    // Sorting each array in outObj by first and last name ascending 
+    const sortArr = (arr) => {
+      arr.sort((a, b) => {
+        const nameA = a.FirstAndLastName.toUpperCase();
+        const nameB = b.FirstAndLastName.toUpperCase();
+        if (nameA < nameB) {
+          return -1;
+        }
+        if (nameA > nameB) {
+          return 1;
+        }
+
+        return 0;
+      });
+    }
+    for (let company in outObj) {
+      sortArr(outObj[company]);
+    }
+
+    console.log(JSON.stringify(outObj))
   }; // end filterData
   return (
     <Card style={{ borderColor: "#333" }}>
