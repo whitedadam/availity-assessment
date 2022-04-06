@@ -11,6 +11,7 @@ import {
 } from "reactstrap";
 import papaparse from "papaparse";
 import { useState } from "react";
+import { CSVLink, CSVDownload } from "react-csv";
 
 const ParseCSV = () => {
   const [csvData] = useState([]);
@@ -127,8 +128,10 @@ const ParseCSV = () => {
           <Input type="file" id="upload" accept=".csv"></Input>
           <FormText>
             Please upload a .csv file. <br />
-            File headers: UserId, FirstAndLastName, Version, InsuranceCompany<br />
-            You may use the "input1.csv" file within this directory as a test input.
+            File headers: UserId, FirstAndLastName, Version, InsuranceCompany
+            <br />
+            You may use the "input1.csv" file within this directory as a test
+            input.
             <br />
           </FormText>
           <Button
@@ -144,7 +147,12 @@ const ParseCSV = () => {
       {csvLoaded ? (
         <>
           <Table>
-            <caption>Florida Blue Data from CSV</caption>
+            <caption>
+              Florida Blue Data from CSV{" "}
+              <CSVLink data={floridaBlue}>
+                Click to Download Table as CSV
+              </CSVLink>
+            </caption>
             <thead>
               <tr>
                 <th>User Id</th>
@@ -165,7 +173,10 @@ const ParseCSV = () => {
             </tbody>
           </Table>
           <Table>
-            <caption>United Data from CSV</caption>
+            <caption>
+              United Data from CSV{" "}
+              <CSVLink data={united}>Click to Download Table as CSV</CSVLink>
+            </caption>
             <thead>
               <tr>
                 <th>User Id</th>
@@ -186,7 +197,10 @@ const ParseCSV = () => {
             </tbody>
           </Table>
           <Table>
-            <caption>Delta Data from CSV</caption>
+            <caption>
+              Delta Data from CSV{" "}
+              <CSVLink data={delta}>Click to Download Table as CSV</CSVLink>
+            </caption>
             <thead>
               <tr>
                 <th>User Id</th>
