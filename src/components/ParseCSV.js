@@ -53,8 +53,6 @@ const ParseCSV = () => {
         }
       });
 
-      console.log(JSON.stringify(outObj));
-
       for (let company in outObj) {
         //change back to insuranceArr.forEach((company)) to fix
         csvData.forEach((datum1, index1) => {
