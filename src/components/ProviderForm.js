@@ -41,6 +41,7 @@ const ProviderForm = () => {
         `${formData.NPI} ${formData.address}\n` +
         `${formData.city} ${formData.state} ${formData.zip}`
     );
+    e.preventDefault();
   };
 
   const handleChange = (e) => {
