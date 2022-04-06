@@ -11,7 +11,7 @@ import {
 } from "reactstrap";
 import papaparse from "papaparse";
 import { useState } from "react";
-import { CSVLink, CSVDownload } from "react-csv";
+import { CSVLink } from "react-csv";
 
 const ParseCSV = () => {
   const [csvData] = useState([]);
