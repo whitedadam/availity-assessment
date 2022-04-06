@@ -17,12 +17,9 @@ const ParseCSV = () => {
   const [csvData] = useState([]);
   const [csvLoaded, setCsvLoaded] = useState(false);
 
-  // Just making an assumption that there's only 3 insurance companies
-  // Florida Blue, United Healthcare and Delta
-  // I know that this is unrealistic but was running out of time.
-  const [floridaBlue, setFloridaBlue] = useState([]);
-  const [united, setUnited] = useState([]);
-  const [delta, setDelta] = useState([]);
+  // Testing generality for code reusability
+  const [outObj] = useState({});
+  const [finalArr] = useState([]);
 
   const handleUpload = (e) => {
     // Using Papaparse package to parse the uploaded file to a state array
@@ -44,18 +41,22 @@ const ParseCSV = () => {
     try {
       // Temp array and set to use while filtering.
       let oldInfo = new Set();
-      let arr = [];
       let insuranceArr = [];
       let oldInsurance = new Set();
 
+      // Grabbing each unique insurance company from the input doc
       csvData.forEach((datum) => {
         if (!oldInsurance.has(datum.InsuranceCompany)) {
+          outObj[datum.InsuranceCompany] = [];
           insuranceArr.push(datum.InsuranceCompany);
           oldInsurance.add(datum.InsuranceCompany);
         }
       });
 
-      insuranceArr.forEach((company) => {
+      console.log(JSON.stringify(outObj));
+
+      for (let company in outObj) {
+        //change back to insuranceArr.forEach((company)) to fix
         csvData.forEach((datum1, index1) => {
           csvData.forEach((datum2, index2) => {
             if (
@@ -69,8 +70,11 @@ const ParseCSV = () => {
               if (!oldInfo.has(datum1.UserId)) {
                 // Checking that UserId hasn't appeared before
                 if (datum1.Version >= datum2.Version)
-                  arr.push(datum1); // if datum1 is higher version add it
-                else if (datum1.Version <= datum2.Version) arr.push(datum2); //if datum2 is higher version add it
+                  outObj[company].push(
+                    datum1
+                  ); // if datum1 is higher version add it
+                else if (datum1.Version <= datum2.Version)
+                  outObj[company].push(datum2); //if datum2 is higher version add it
                 oldInfo.add(datum1.UserId); // track UserId within set
               }
             }
@@ -80,41 +84,40 @@ const ParseCSV = () => {
             datum1.InsuranceCompany === company
           ) {
             // if UserId hasn't been seen before and is not duplicate add it to array
-            arr.push(datum1);
+            outObj[company].push(datum1);
             oldInfo.add(datum1.UserId);
           }
         }); // end datum1
         oldInfo.clear(); //cleaing tracking set
-        // Sorting array by first and last name ascending
-        arr.sort((a, b) => {
-          const nameA = a.FirstAndLastName.toUpperCase();
-          const nameB = b.FirstAndLastName.toUpperCase();
-          if (nameA < nameB) {
-            return -1;
-          }
-          if (nameA > nameB) {
-            return 1;
-          }
-
-          return 0;
-        });
-
-        // Setting state arrays and writing to json file
-        if (company === "Florida Blue") {
-          setFloridaBlue(JSON.parse(JSON.stringify(arr)));
-        }
-        if (company === "United Healthcare") {
-          setUnited(JSON.parse(JSON.stringify(arr)));
-        }
-        if (company === "Delta") {
-          setDelta(JSON.parse(JSON.stringify(arr)));
-        }
-
-        // Clearing array for next iteration
-        arr = [];
-      }); //end insuranceArr
+      } //end outObj
     } catch (err) {
       console.log(err);
+    }
+
+    // Sorting each array in outObj by first and last name ascending
+    const sortArr = (arr) => {
+      arr.sort((a, b) => {
+        const nameA = a.FirstAndLastName.toUpperCase();
+        const nameB = b.FirstAndLastName.toUpperCase();
+        if (nameA < nameB) {
+          return -1;
+        }
+        if (nameA > nameB) {
+          return 1;
+        }
+
+        return 0;
+      });
+    };
+    
+    // Sorting all data within outObj
+    for (let company in outObj) {
+      sortArr(outObj[company]);
+    }
+
+    // Adding final sorted data to finalArr for output
+    for (let company in outObj) {
+      finalArr.push(JSON.parse(JSON.stringify(outObj[company])))
     }
   }; // end filterData
   return (
@@ -146,80 +149,34 @@ const ParseCSV = () => {
       </Form>
       {csvLoaded ? (
         <>
-          <Table>
-            <caption>
-              Florida Blue Data from CSV{" "}
-              <CSVLink data={floridaBlue}>
-                Click to Download Table as CSV
-              </CSVLink>
-            </caption>
-            <thead>
-              <tr>
-                <th>User Id</th>
-                <th>First and Last Name</th>
-                <th>Version</th>
-                <th>Insurance Company</th>
-              </tr>
-            </thead>
-            <tbody>
-              {floridaBlue.map((datum) => (
+          {finalArr.map((company, index) => (
+            <Table>
+              <caption>
+                {finalArr[index][0].InsuranceCompany} Data from CSV{" "}
+                <CSVLink data={finalArr[index]}>
+                  Click to Download Table as CSV
+                </CSVLink>
+              </caption>
+              <thead>
                 <tr>
-                  <td>{datum.UserId}</td>
-                  <td>{datum.FirstAndLastName}</td>
-                  <td>{datum.Version}</td>
-                  <td>{datum.InsuranceCompany}</td>
+                  <th>User Id</th>
+                  <th>First and Last Name</th>
+                  <th>Version</th>
+                  <th>Insurance Company</th>
                 </tr>
-              ))}
-            </tbody>
-          </Table>
-          <Table>
-            <caption>
-              United Data from CSV{" "}
-              <CSVLink data={united}>Click to Download Table as CSV</CSVLink>
-            </caption>
-            <thead>
-              <tr>
-                <th>User Id</th>
-                <th>First and Last Name</th>
-                <th>Version</th>
-                <th>Insurance Company</th>
-              </tr>
-            </thead>
-            <tbody>
-              {united.map((datum) => (
-                <tr>
-                  <td>{datum.UserId}</td>
-                  <td>{datum.FirstAndLastName}</td>
-                  <td>{datum.Version}</td>
-                  <td>{datum.InsuranceCompany}</td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
-          <Table>
-            <caption>
-              Delta Data from CSV{" "}
-              <CSVLink data={delta}>Click to Download Table as CSV</CSVLink>
-            </caption>
-            <thead>
-              <tr>
-                <th>User Id</th>
-                <th>First and Last Name</th>
-                <th>Version</th>
-                <th>Insurance Company</th>
-              </tr>
-            </thead>
-            <tbody>
-              {delta.map((datum) => (
-                <tr>
-                  <td>{datum.UserId}</td>
-                  <td>{datum.FirstAndLastName}</td>
-                  <td>{datum.Version}</td>
-                  <td>{datum.InsuranceCompany}</td>
-                </tr>
-              ))}
-            </tbody>
-          </Table>
+              </thead>
+              <tbody>
+                {finalArr[index].map((datum) => (
+                  <tr>
+                    <td>{datum.UserId}</td>
+                    <td>{datum.FirstAndLastName}</td>
+                    <td>{datum.Version}</td>
+                    <td>{datum.InsuranceCompany}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </Table>
+          ))}
         </>
       ) : null}
     </Card>
