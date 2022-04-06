@@ -17,17 +17,17 @@ const Navigation = () => {
         </NavItem>
         <NavItem>
           <NavLink tag={Link} to="/lisp-checker">
-            LISP Checker
+            LISP Checker (4)
           </NavLink>
         </NavItem>
         <NavItem>
           <NavLink tag={Link} to="/provider-form">
-            Provider Form
+            Provider Form (5)
           </NavLink>
         </NavItem>
         <NavItem>
           <NavLink tag={Link} to="/parse-csv">
-            ParseCSV
+            ParseCSV (6)
           </NavLink>
         </NavItem>
       </Nav>

@@ -34,7 +34,6 @@ const ParseCSV = () => {
           csvData.push(results.data[i]);
         filterData();
         setCsvLoaded(true);
-        // console.log(csvData);
       },
     });
   };
@@ -99,14 +98,16 @@ const ParseCSV = () => {
           return 0;
         });
 
-        // Setting state arrays
-        if (company === "Florida Blue")
+        // Setting state arrays and writing to json file
+        if (company === "Florida Blue") {
           setFloridaBlue(JSON.parse(JSON.stringify(arr)));
-
-        if (company === "United Healthcare")
+        }
+        if (company === "United Healthcare") {
           setUnited(JSON.parse(JSON.stringify(arr)));
-
-        if (company === "Delta") setDelta(JSON.parse(JSON.stringify(arr)));
+        }
+        if (company === "Delta") {
+          setDelta(JSON.parse(JSON.stringify(arr)));
+        }
 
         // Clearing array for next iteration
         arr = [];
@@ -114,7 +115,7 @@ const ParseCSV = () => {
     } catch (err) {
       console.log(err);
     }
-  };
+  }; // end filterData
   return (
     <Card style={{ borderColor: "#333" }}>
       <CardTitle style={{ margin: "5px" }} tag={"h3"}>
