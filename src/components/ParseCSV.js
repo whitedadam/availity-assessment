@@ -40,7 +40,6 @@ const ParseCSV = () => {
   const filterData = () => {
     try {
       // Temp array and set to use while filtering.
-      let oldInfo = new Set();
       let insuranceArr = [];
       let oldInsurance = new Set();
 
@@ -53,69 +52,43 @@ const ParseCSV = () => {
         }
       });
 
+      // For each unique company found within input file,
+      // push relevant people from input file to matching company arr
       for (let company in outObj) {
-        //change back to insuranceArr.forEach((company)) to fix
-        csvData.forEach((datum1, index1) => {
-          csvData.forEach((datum2, index2) => {
-            if (
-              // Checking for duplicate within the current Company
-              index1 !== index2 &&
-              datum1.UserId === datum2.UserId &&
-              datum1.InsuranceCompany === datum2.InsuranceCompany &&
-              datum1.InsuranceCompany === company &&
-              datum2.InsuranceCompany === company
-            ) {
-              if (!oldInfo.has(datum1.UserId)) {
-                // Checking that UserId hasn't appeared before
-                if (datum1.Version >= datum2.Version)
-                  outObj[company].push(
-                    datum1
-                  ); // if datum1 is higher version add it
-                else if (datum1.Version <= datum2.Version)
-                  outObj[company].push(datum2); //if datum2 is higher version add it
-                oldInfo.add(datum1.UserId); // track UserId within set
-              }
+        outObj[company] = csvData.filter(
+          (person) => person.InsuranceCompany === company
+        );
+      }
+
+      // Sorting each company array in outObj by first and last name ascending
+      for (let company in outObj) {
+        outObj[company].sort((nameA, nameB) =>
+          nameA.FirstAndLastName.toUpperCase() >
+          nameB.FirstAndLastName.toUpperCase()
+            ? 1
+            : -1
+        );
+      }
+
+      // I know that the time complexity of this solution is not great but it's cleaner than my first solution.
+      // Removing duplicate users from each company, filtering by highest version number
+      for (let company in outObj) {
+        let filteredCompany = new Set(); // will prevent duplicates from arriving in output
+        outObj[company].forEach((person1, index1) => {
+          let maxVersion = person1;
+          outObj[company].forEach((person2, index2) => {
+            if (index1 !== index2 && person1.UserId === person2.UserId) {
+              person1.Version > person2.Version
+                ? (maxVersion = person1)
+                : (maxVersion = person2); // taking the highest version profile
             }
-          }); // end datum2
-          if (
-            !oldInfo.has(datum1.UserId) &&
-            datum1.InsuranceCompany === company
-          ) {
-            // if UserId hasn't been seen before and is not duplicate add it to array
-            outObj[company].push(datum1);
-            oldInfo.add(datum1.UserId);
-          }
-        }); // end datum1
-        oldInfo.clear(); //cleaing tracking set
-      } //end outObj
+          });
+          filteredCompany.add(maxVersion);
+        }); // end foreach
+        finalArr.push(Array.from(filteredCompany)); // pushing that filtered array to the final presentation arr.
+      } // end company for
     } catch (err) {
       console.log(err);
-    }
-
-    // Sorting each array in outObj by first and last name ascending
-    const sortArr = (arr) => {
-      arr.sort((a, b) => {
-        const nameA = a.FirstAndLastName.toUpperCase();
-        const nameB = b.FirstAndLastName.toUpperCase();
-        if (nameA < nameB) {
-          return -1;
-        }
-        if (nameA > nameB) {
-          return 1;
-        }
-
-        return 0;
-      });
-    };
-    
-    // Sorting all data within outObj
-    for (let company in outObj) {
-      sortArr(outObj[company]);
-    }
-
-    // Adding final sorted data to finalArr for output
-    for (let company in outObj) {
-      finalArr.push(JSON.parse(JSON.stringify(outObj[company])))
     }
   }; // end filterData
   return (
